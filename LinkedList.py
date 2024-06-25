@@ -205,14 +205,88 @@ class LinkedList:
             current = current.next
         return current.data if current else None
 
-    def rotate(self):
-        if not self.head or not self.head.next:
+    def rotate_from_right(self, position):
+        if self.head is None:
+            return None
+        
+        current_node = self.head
+        length = 1
+        while current_node.next is not None:
+            current_node = current_node.next
+            length += 1
+
+        position = position % length 
+        if position == 0:
             return
+        
+        new_head = None
+        new_tail = self.head
+        tail_position = length - position -1
+        for _ in range(tail_position):
+            new_tail = new_tail.next
+        new_head = new_tail.next
 
-        last = self.head
-        while last.next:
-            last = last.next
+        current_node.next = self.head
+        self.head = new_head
+        new_tail.next = None
 
-        last.next = self.head
-        self.head = self.head.next
-        last.next.next = None
+    def rotate_from_left(self,position):
+        if self.head is None or position == 0:
+                return None
+        
+        current_node = self.head
+        length = 1
+        while current_node.next is not None:
+            current_node = current_node.next
+            length += 1
+
+        position = position % length 
+        if position == 0:
+            return
+        
+        new_head = None
+        new_tail = self.head
+        tail_position = length - (length - position) -1
+        for _ in range(tail_position):
+            new_tail = new_tail.next
+        new_head = new_tail.next
+        current_node.next = self.head
+        self.head = new_head
+        new_tail.next = None
+        
+
+
+
+
+mylist  = LinkedList()
+
+mylist.append(1)
+
+mylist.append(2)
+
+
+mylist.append(3)
+
+mylist.append(4)
+
+mylist.append(5)
+
+
+mylist.append(6)
+
+
+mylist.append(7)
+
+
+mylist.append(8)
+
+mylist.show_elements()
+
+mylist.rotate_from_left(4)
+
+#34512
+mylist.show_elements()
+
+mylist.rotate_from_right(4)
+print("Final")
+mylist.show_elements()
